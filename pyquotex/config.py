@@ -17,8 +17,11 @@ def credentials():
         config_path.parent.mkdir(exist_ok=True, parents=True)
         text_settings = (
             f"[settings]\n"
-            f"email={input('Enter your account email: ')}\n"
-            f"password={input('Enter your account password: ')}\n"
+            import os
+
+def credentials():
+    return os.getenv("EMAIL"), os.getenv("PASSWORD")
+
         )
         config_path.write_text(text_settings)
 
