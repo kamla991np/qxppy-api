@@ -115,13 +115,17 @@ class PyQuotexCLI:
 
     def setup_client(self):
         """Initializes the Quotex API client with credentials."""
-        try:
-            # Load session-based headers (using session.json cookie)
-headers = load_session(os.getenv("USER_AGENT", None))  # USER_AGENT optional
+      try:
+    headers = load_session(os.getenv("USER_AGENT"), None)  # USER_AGENT optional
+except Exception as e:
+    print(f"[Error loading session] {e}")
+    headers = {}  # fallback if error occurs
+
 self.client = Quotex(
     headers=headers,
     lang="pt"
 )
+
 
             logger.info("Quotex client initialized successfully.")
         except Exception as e:
