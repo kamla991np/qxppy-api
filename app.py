@@ -21,8 +21,10 @@ from pyquotex.utils.processor import (
     get_color,
     aggregate_candle
 )
-from pyquotex.config import credentials
+from pyquotex.config import load_session
 from pyquotex.stable_api import Quotex
+import os
+
 
 __author__ = "Cleiton Leonel Creton"
 __version__ = "1.0.3"
@@ -114,12 +116,13 @@ class PyQuotexCLI:
     def setup_client(self):
         """Initializes the Quotex API client with credentials."""
         try:
-            email, password = credentials()
-            self.client = Quotex(
-                email=email,
-                password=password,
-                lang="pt"
-            )
+            # Load session-based headers (using session.json cookie)
+headers = load_session(os.getenv("USER_AGENT", None))  # USER_AGENT optional
+self.client = Quotex(
+    headers=headers,
+    lang="pt"
+)
+
             logger.info("Quotex client initialized successfully.")
         except Exception as e:
             logger.error(f"Failed to initialize Quotex client: {e}")
